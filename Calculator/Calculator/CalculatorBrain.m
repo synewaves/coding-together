@@ -9,13 +9,10 @@
 #import "CalculatorBrain.h"
 
 @interface CalculatorBrain()
-
 @property (nonatomic, strong) NSMutableArray *operandStack;
-
 @end
 
 @implementation CalculatorBrain
-
 @synthesize operandStack = _operandStack;
 
 - (NSMutableArray *)operandStack
@@ -27,17 +24,20 @@
     return _operandStack;
 }
 
+// Clears out all items from stack
 - (void)clearMemory
 {
     [self.operandStack removeAllObjects];
 }
 
+// Pushes an operand onto stack
 - (void)pushOperand:(double)operand
 {
     NSNumber *operandObject = [NSNumber numberWithFloat:operand];
     [self.operandStack addObject:operandObject];
 }
 
+// Gets the last pushed operand
 - (double)popOperand
 {
     NSNumber *operandObject = [self.operandStack lastObject];
@@ -47,6 +47,8 @@
     return [operandObject doubleValue];
 }
 
+// Performs an operation
+// Will do basic sanity checking of returned values
 - (double)performOperation:(NSString *)operation
 {
     double result = 0;

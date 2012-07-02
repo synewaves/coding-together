@@ -16,7 +16,6 @@
 @end
 
 @implementation CalculatorViewController
-
 @synthesize display = _display;
 @synthesize stackDisplay = _stackDisplay;
 @synthesize userIsInTheMiddleOfEnteringANumber = _userIsInTheMiddleOfEnteringANumber;
@@ -30,6 +29,7 @@
     return _brain;
 }
 
+// Handles the digitPressed event
 - (IBAction)digitPressed:(UIButton *)sender
 {
     NSString *digit = [sender currentTitle];
@@ -54,6 +54,8 @@
     }
 }
 
+// Handles the enterPressed event
+// Will push an operand onto the stack
 - (IBAction)enterPressed
 {
     [self.brain pushOperand:[self.display.text doubleValue]];
@@ -62,6 +64,9 @@
     self.userIsInTheMiddleOfEnteringANumber = NO;
 }
 
+
+// Handles the operationPressed event
+// Will perform the operation and display result
 - (IBAction)operationPressed:(UIButton *)sender
 {
     if (self.userIsInTheMiddleOfEnteringANumber) {
@@ -76,6 +81,8 @@
     self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 
+// Handles the clearPressed event
+// Clears out the calculator
 - (IBAction)clearPressed:(UIButton *)sender
 {
     [self.brain clearMemory];
@@ -84,6 +91,8 @@
     self.userIsInTheMiddleOfEnteringANumber = NO;
 }
 
+// Handles the switchSignPressed event
+// Will either change the display's sign of operand or perform (x * -1) calculation
 - (IBAction)switchSignPressed:(UIButton *)sender
 {
     if (self.userIsInTheMiddleOfEnteringANumber) {
@@ -95,6 +104,8 @@
     }
 }
 
+// Handles the backspacePressed event
+// Will remove last inputted symbol, but not operators. Clears to 0.
 - (IBAction)backspacePressed:(UIButton *)sender
 {
     if (self.userIsInTheMiddleOfEnteringANumber) {
@@ -108,6 +119,7 @@
     }
 }
 
+// Appends a new item to the display stack
 - (void)appendToStackDisplay:(NSString *)value
 {
     NSString *valueToAppend = [@" " stringByAppendingString:value];
