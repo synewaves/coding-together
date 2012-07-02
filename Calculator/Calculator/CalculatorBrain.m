@@ -75,6 +75,11 @@
         result = [self popOperand] * -1;
     }
     
+    // basic sanity check here... should be an error, but assignment says 0
+    if (isnan(result)) {
+        result = 0;
+    }
+    
     [self pushOperand:result];
     
     return result;
