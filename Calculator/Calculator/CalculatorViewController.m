@@ -45,10 +45,11 @@
     } else {
         if (isDot) {
             // prepend with 0 for formatting niceness
-            digit = [@"0" stringByAppendingString:digit];
+            self.display.text = [@"0" stringByAppendingString:digit];
+        } else {
+            self.display.text = digit;
         }
         
-        self.display.text = digit;
         self.userIsInTheMiddleOfEnteringANumber = YES;
     }
 }
@@ -66,12 +67,12 @@
     if (self.userIsInTheMiddleOfEnteringANumber) {
         [self enterPressed];
     }
-       
+    
     NSString *operation = [sender currentTitle];
     
     [self appendToStackDisplay:operation];
-    double result = [self.brain performOperation:operation];
     [self appendToStackDisplay:@"="];
+    double result = [self.brain performOperation:operation];
     self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 
@@ -87,14 +88,10 @@
 {
     if (self.userIsInTheMiddleOfEnteringANumber) {
         // switch sign in display
-        double switchedValue = [self.display.text doubleValue];
-        switchedValue *= -1;
-        self.display.text = [NSString stringWithFormat:@"%g", switchedValue];
+        self.display.text = [NSString stringWithFormat:@"%g", [self.display.text doubleValue] * -1];
     } else {
-        // new operation of multiplying by -1
-        [self appendToStackDisplay:@"+/-"];
-        double result = [self.brain performOperation:@"+/-"];
-        self.display.text = [NSString stringWithFormat:@"%g", result];
+        // just perform operation
+        [self operationPressed:sender];
     }
 }
 
@@ -114,6 +111,7 @@
 - (void)appendToStackDisplay:(NSString *)value
 {
     NSString *valueToAppend = [@" " stringByAppendingString:value];
+    self.stackDisplay.text = [self.stackDisplay.text stringByReplacingOccurrencesOfString:@" =" withString:@""];
     self.stackDisplay.text = [self.stackDisplay.text stringByAppendingString:valueToAppend];
 }
 
