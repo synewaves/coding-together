@@ -114,8 +114,6 @@
 - (void)appendToStackDisplay:(NSString *)value
 {
     NSString *valueToAppend = [@" " stringByAppendingString:value];
-    NSLog(@"%@", valueToAppend);
-    
     self.stackDisplay.text = [self.stackDisplay.text stringByAppendingString:valueToAppend];
 }
 
